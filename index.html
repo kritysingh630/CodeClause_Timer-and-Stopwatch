@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Timer and Stopwatch</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    .timer {
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+
+    .controls {
+      margin-bottom: 20px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #3498db;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Timer and Stopwatch</h1>
+  
+  <div class="timer">00:00:00</div>
+  <div class="controls">
+    <button id="startTimer">Start Timer</button>
+    <button id="pauseTimer">Pause Timer</button>
+    <button id="resetTimer">Reset Timer</button>
+  </div>
+
+  <h2>Stopwatch</h2>
+  
+  <div class="timer">00:00:00</div>
+  <div class="controls">
+    <button id="startStopwatch">Start Stopwatch</button>
+    <button id="pauseStopwatch">Pause Stopwatch</button>
+    <button id="resetStopwatch">Reset Stopwatch</button>
+  </div>
+
+  <script>
+    // Timer
+    let timerInterval;
+    let timerSeconds = 0;
+    let timerMinutes = 0;
+    let timerHours = 0;
+    let timerRunning = false;
+
+    function startTimer() {
+      if (!timerRunning) {
+        timerInterval = setInterval(updateTimer, 1000);
+        timerRunning = true;
+      }
+    }
+
+    function pauseTimer() {
+      clearInterval(timerInterval);
+      timerRunning = false;
+    }
+
+    function resetTimer() {
+      clearInterval(timerInterval);
+      timerSeconds = 0;
+      timerMinutes = 0;
+      timerHours = 0;
+      timerRunning = false;
+      updateTimer();
+    }
+
+    function updateTimer() {
+      timerSeconds++;
+
+      if (timerSeconds === 60) {
+        timerSeconds = 0;
+        timerMinutes++;
+
+        if (timerMinutes === 60) {
+          timerMinutes = 0;
+          timerHours++;
+        }
+      }
+
+      const timeString = `${formatTime(timerHours)}:${formatTime(timerMinutes)}:${formatTime(timerSeconds)}`;
+      document.querySelector('.timer').textContent = timeString;
+    }
+
+    // Stopwatch
+    let stopwatchInterval;
+    let stopwatchSeconds = 0;
+    let stopwatchMinutes = 0;
+    let stopwatchHours = 0;
+    let stopwatchRunning = false;
+
+    function startStopwatch() {
+      if (!stopwatchRunning) {
+        stopwatchInterval = setInterval(updateStopwatch, 1000);
+        stopwatchRunning = true;
+      }
+    }
+
+    function pauseStopwatch() {
+      clearInterval(stopwatchInterval);
+      stopwatchRunning = false;
+    }
+
+    function resetStopwatch() {
+      clearInterval(stopwatchInterval);
+      stopwatchSeconds = 0;
+      stopwatchMinutes = 0;
+      stopwatchHours = 0;
+      stopwatchRunning = false;
+      updateStopwatch();
+    }
+
+    function updateStopwatch() {
+      stopwatchSeconds++;
+
+      if (stopwatchSeconds === 60) {
+        stopwatchSeconds = 0;
+        stopwatchMinutes++;
+
+        if (stopwatchMinutes === 60) {
+          stopwatchMinutes = 0;
+          stopwatchHours++;
+        }
+      }
+
+      const timeString = `${formatTime(stopwatchHours)}:${formatTime(stopwatchMinutes)}:${formatTime(stopwatchSeconds)}`;
+      document.querySelectorAll('.timer')[1].textContent = timeString;
+    }
+
+    function formatTime(time) {
+      return time < 10 ? `0${time}` : time;
+    }
+
+    // Event Listeners
+    document.getElementById('startTimer').addEventListener('click', startTimer);
+    document.getElementById('pauseTimer').addEventListener('click', pauseTimer);
+    document.getElementById('resetTimer').addEventListener('click', resetTimer);
+    document.getElementById('startStopwatch').addEventListener('click', startStopwatch);
+    document.getElementById('pauseStopwatch').addEventListener('click', pauseStopwatch);
+    document.getElementById('resetStopwatch').addEventListener('click', resetStopwatch);
+  </script>
+</body>
+</html>
